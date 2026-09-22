@@ -1,0 +1,1 @@
+# Programme-Specific Entry Requirements\n\nPlace individual programme requirement files here (one .md file per major programme or faculty).\n\nRecommended naming:\n- agriculture.md\n- engineering.md\n- computing.md\n- law_management.md\n- social_sciences.md\n- medicine.md\n\nSource: https://www.uom.ac.mu/index.php/individual-programme-entry-requirements
