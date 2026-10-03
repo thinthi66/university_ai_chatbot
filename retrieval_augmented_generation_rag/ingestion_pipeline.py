@@ -115,7 +115,7 @@ def create_vector_store(chunks, persistent_vector_store_dir="db/chroma_db"):
 def main():
     print("---- RAG Document Ingestion ---- \n")
 
-    folder_name = "knowledge-base"
+    folder_name = "knowledge_base"
     persistent_vector_store_dir = Path("db/chroma_db")
 
     #1. Load documents from their directory
