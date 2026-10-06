@@ -1,10 +1,9 @@
 from pathlib import Path
 from langchain_community.retrievers import BM25Retriever
 from langchain_community.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
-from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-import pickle
 
 def load_files(folder_name:str):
     folder_path = Path(folder_name)
@@ -35,7 +34,7 @@ def load_files(folder_name:str):
             #Filter out duplicates;
             
 
-            print(f"---- Documents loaded from {folder_path}... ---- \n")
+            print(f"---- Documents loaded from {folder_path} ---- \n")
 
             for i, doc in enumerate(documents):  # Show first 2 documents
                 print(f"\nDocument {i+1}:")
