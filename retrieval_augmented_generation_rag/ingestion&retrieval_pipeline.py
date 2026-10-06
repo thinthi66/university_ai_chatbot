@@ -1,8 +1,10 @@
 from pathlib import Path
+from langchain_community.retrievers import BM25Retriever
 from langchain_community.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
 from langchain_text_splitters import CharacterTextSplitter, RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+import pickle
 
 def load_files(folder_name:str):
     folder_path = Path(folder_name)
@@ -94,8 +96,6 @@ def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
 
 def create_vector_store(chunks, persistent_vector_store_dir="db/chroma_db"):
 
-    print(f"Number of chunks: {len(chunks)}")
-
     if len(chunks) == 0:
         print("ERROR: No chunks were created!")
         return None
@@ -112,6 +112,45 @@ def create_vector_store(chunks, persistent_vector_store_dir="db/chroma_db"):
 
     return vector_store
 
+def bm25_retriever (chunks):
+    
+    if len(chunks) == 0:
+        print("ERROR: No chunks were created!")
+        return None
+
+    bm25_retriever = BM25Retriever.from_documents(chunks)
+    return bm25_retriever
+
+def max_marginal_relevance_search_retrieval (vector_store, query:str):
+    results = vector_store.max_marginal_relevance_search(query, k=5, fetch_k=10)
+
+    return results
+
+def reciprocal_rank_fusion(mmr_results, bm25_results, k=60):
+    rrf_scores = {}
+
+    for rank, doc in enumerate(mmr_results, start=1):
+        doc_id = doc.page_content
+        rrf_score = 1/(k + rank)
+
+        if doc_id not in rrf_scores:
+            rrf_scores[doc_id] = 0
+        
+        rrf_scores[doc_id]+= rrf_score
+
+    for rank, doc in enumerate(bm25_results, start=1):
+        doc_id = doc.page_content
+        rrf_score = 1/(k + rank)
+
+        if doc_id not in rrf_scores:
+            rrf_scores[doc_id] = 0
+                
+        rrf_scores[doc_id] += rrf_score
+        
+    sorted_results = sorted(rrf_scores, key=rrf_scores.get)
+
+    return sorted_results
+    
 def main():
     print("---- RAG Document Ingestion ---- \n")
 
@@ -131,15 +170,44 @@ def main():
         embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         vector_store = Chroma( persist_directory=persistent_vector_store_dir,
                               embedding_function=embedding_model, 
-                              collection_metadata={"hnsw:space": "cosine"}
+                              collection_metadata={"hnsw:space": "cosine"} #the algorithm the database will use to retrieve similar results
                               )
-
     else:
         #If not, create vector store
         vector_store = create_vector_store(chunks, persistent_vector_store_dir)
 
+    #4.Load from bm25_retriever_store
+    bm25_retriever_store = bm25_retriever(chunks)
+
     print("Ingestion Complete!")
-    return vector_store
+    print("---- RAG Document Retrieval ---- \n")
+
+    #5. Input user query
+    user_query = input("Please input user query:")
+
+    #6. Retrieve results matching user query
+    mmr_search_results = max_marginal_relevance_search_retrieval(vector_store, user_query)
+    bm25_results = bm25_retriever_store.invoke(user_query)
+
+    print("\n--- Semantic Results ---")
+    for doc in mmr_search_results:
+        print(doc.metadata)
+        print(doc.page_content[:200])
+
+    print("\n--- BM25 Results ---")
+    for doc in bm25_results:
+        print(doc.metadata)
+        print(doc.page_content[:200])
+
+    ranked_results = reciprocal_rank_fusion (mmr_search_results, bm25_results)
+    print("\n--- Reciprocal Rank Fusion Results ---")
+
+    for i, ranked_result in enumerate(ranked_results):
+        print(f"--- Result {i+1} ---")
+        print(f"{ranked_result}\n")
+
+    print("Retrieval Complete!")
+    return ranked_results
 
 if __name__ == "__main__":
     main()
