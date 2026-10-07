@@ -1,0 +1,177 @@
+{
+  "_note": "Contact details taken from Person 1's knowledge base (contacts/important_contacts.md, international_students/contacts.md, campus_resources/*.md), last checked 23 Sep 2026. Update here when they change; no code change needed. Departments are listed from most to least specific: when two match a question equally, the earlier one wins.",
+  "default": "general",
+  "category_map": {
+    "admissions": "admissions",
+    "programmes": "admissions",
+    "international_students": "international",
+    "current_students": "registry",
+    "fees": "fees",
+    "campus_resources/library": "library",
+    "campus_resources/student_union": "student_union",
+    "contacts": "general",
+    "sources": "general"
+  },
+  "departments": {
+    "international": {
+      "name": "International Office",
+      "email": "iso@uom.ac.mu",
+      "phone": "+230 403 7810",
+      "url": "https://www.uom.ac.mu/index.php/iao-contact-us",
+      "keywords": [
+        "international",
+        "visa",
+        "immigration",
+        "foreign",
+        "overseas",
+        "permit",
+        "passport",
+        "accommodation"
+      ]
+    },
+    "registry": {
+      "name": "Faculty Registry or Admissions & Student Records Office",
+      "email": "admission@uom.ac.mu",
+      "phone": "(230) 403 7400",
+      "url": "https://www.uom.ac.mu/index.php/study-at-uom/current-students/regulations/undergraduate-postgraduate",
+      "keywords": [
+        "register",
+        "registration",
+        "module",
+        "exam",
+        "transcript",
+        "result",
+        "resit",
+        "re-exam",
+        "review of",
+        "regulation",
+        "academic calendar",
+        "omrs",
+        "records"
+      ]
+    },
+    "fees": {
+      "name": "Study at UoM Enquiries (fees and offer acceptance)",
+      "email": "studyatuom@uom.ac.mu",
+      "phone": "(230) 403 7400",
+      "url": "https://uom.ac.mu/index.php/fees-and-payment",
+      "keywords": [
+        "fee",
+        "tuition",
+        "payment",
+        "pay",
+        "refund",
+        "proof of payment",
+        "acceptance",
+        "offer"
+      ]
+    },
+    "library": {
+      "name": "Library",
+      "email": "library@uom.ac.mu",
+      "phone": "(230) 403 7400",
+      "url": "https://www.uom.ac.mu/index.php/news/47-library",
+      "keywords": [
+        "library",
+        "book",
+        "borrow",
+        "loan",
+        "journal",
+        "e-library",
+        "clearance"
+      ]
+    },
+    "student_union": {
+      "name": "Students' Union",
+      "email": "presidentsu@uom.ac.mu",
+      "phone": "403 7400 Ext. 4016",
+      "url": "https://uom.ac.mu/students/index.php?id=28&option=com_sppagebuilder&view=page",
+      "keywords": [
+        "club",
+        "society",
+        "societies",
+        "student union",
+        "students' union",
+        "union",
+        "event"
+      ]
+    },
+    "sports": {
+      "name": "Sports Unit",
+      "email": "sportsunit@uom.ac.mu",
+      "phone": "403 7400 Ext. 5330/5335",
+      "url": null,
+      "keywords": [
+        "sport",
+        "gym",
+        "football",
+        "basketball",
+        "athletic"
+      ]
+    },
+    "first_aid": {
+      "name": "First Aid Post",
+      "email": null,
+      "phone": "403 7699 / 403 7400 Ext. 5325",
+      "url": null,
+      "keywords": [
+        "first aid",
+        "injured",
+        "injury",
+        "hurt",
+        "unwell"
+      ]
+    },
+    "it_support": {
+      "name": "IT Helpdesk",
+      "email": "helpdesk@uom.ac.mu",
+      "phone": null,
+      "url": null,
+      "keywords": [
+        "password",
+        "login",
+        "log in",
+        "wifi",
+        "wi-fi",
+        "moodle",
+        "student email",
+        "internet",
+        "e-learning"
+      ]
+    },
+    "public_relations": {
+      "name": "Public Relations Office",
+      "email": "pro@uom.ac.mu",
+      "phone": "403 7400 Ext. 5215",
+      "url": null,
+      "keywords": [
+        "press",
+        "media",
+        "public relations"
+      ]
+    },
+    "admissions": {
+      "name": "Admissions & Student Records Office",
+      "email": "admission@uom.ac.mu",
+      "phone": "(230) 403 7400",
+      "url": "https://www.uom.ac.mu/index.php/application-process",
+      "keywords": [
+        "apply",
+        "application",
+        "admission",
+        "entry requirement",
+        "deadline",
+        "qualify",
+        "enrol",
+        "programme"
+      ]
+    },
+    "general": {
+      "name": "University of Mauritius main switchboard",
+      "email": null,
+      "phone": "(230) 403 7400",
+      "url": "https://www.uom.ac.mu",
+      "keywords": []
+    }
+  }
+}
