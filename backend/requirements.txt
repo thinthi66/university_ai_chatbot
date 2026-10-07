@@ -1,0 +1,16 @@
+# Person 3 backend
+fastapi>=0.110
+uvicorn[standard]>=0.29
+httpx>=0.27
+python-dotenv>=1.0
+pydantic>=2.6
+pytest>=8.0
+
+# Retrieval: same pinned versions as Person 2's retrieval_augmented_generation_rag/requirements.txt
+chromadb==1.5.9
+langchain-chroma==1.1.0
+langchain-core==1.6.6
+langchain-huggingface==1.2.2
+langchain-text-splitters==1.1.2
+# Needed by HuggingFaceEmbeddings but missing from Person 2's requirements file
+sentence-transformers
