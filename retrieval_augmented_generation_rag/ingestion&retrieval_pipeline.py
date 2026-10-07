@@ -31,9 +31,6 @@ def load_files(folder_name:str):
         if len(documents) == 0:
             raise FileNotFoundError(f"Error: No files found in {folder_path}. Please add or create files.")
         else:
-            #Filter out duplicates;
-            
-
             print(f"---- Documents loaded from {folder_path} ---- \n")
 
             for i, doc in enumerate(documents):  # Show first 2 documents
@@ -55,10 +52,7 @@ def load_files(folder_name:str):
     return documents
 
 def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
-    #chunk_size defines the number of characters in each chunk. chunk_overlap defines the number of overlapping characters to maintain context.
-    #Consider using Recursive or Sentence-based because 
-    #Breaks down long documents into smaller chunks
-
+    
     headers_to_split_on = [("#", "Header 1"),
                            ("##", "Header 2"),
                            ("###", "Header 3")
@@ -73,9 +67,7 @@ def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
             text_splitter = RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap)
             text_chunks = text_splitter.split_documents(header_splits)
         else:
-            #Consider RecursiveCharacterTextSplitter() 
             text_splitter = RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap)
-            #split_text() is different from split_documents(). It takes in separator and text as parameters.
             text_chunks = text_splitter.split_documents([doc])
         
         chunks_collection.extend(text_chunks)
@@ -88,9 +80,8 @@ def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
             print("Content:")
             print(chunk.page_content)
             print("-" * 50)
-
+            
     print("---- Files split into chunks  ---- \n")
-
     return chunks_collection
 
 def create_vector_store(chunks, persistent_vector_store_dir="db/chroma_db"):
@@ -108,7 +99,6 @@ def create_vector_store(chunks, persistent_vector_store_dir="db/chroma_db"):
                                          )
 
     print(f"Vector database store created and saved to {persistent_vector_store_dir}")
-
     return vector_store
 
 def bm25_retriever (chunks):
@@ -122,7 +112,6 @@ def bm25_retriever (chunks):
 
 def max_marginal_relevance_search_retrieval (vector_store, query:str):
     results = vector_store.max_marginal_relevance_search(query, k=5, fetch_k=10)
-
     return results
 
 def reciprocal_rank_fusion(mmr_results, bm25_results, k=60):
@@ -169,7 +158,7 @@ def main():
         embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         vector_store = Chroma( persist_directory=persistent_vector_store_dir,
                               embedding_function=embedding_model, 
-                              collection_metadata={"hnsw:space": "cosine"} #the algorithm the database will use to retrieve similar results
+                              collection_metadata={"hnsw:space": "cosine"}
                               )
     else:
         #If not, create vector store
@@ -188,7 +177,7 @@ def main():
     mmr_search_results = max_marginal_relevance_search_retrieval(vector_store, user_query)
     bm25_results = bm25_retriever_store.invoke(user_query)
 
-    print("\n--- Semantic Results ---")
+    print("\n--- Max Marginal Relevance Search Results ---")
     for doc in mmr_search_results:
         print(doc.metadata)
         print(doc.page_content[:200])
@@ -199,8 +188,8 @@ def main():
         print(doc.page_content[:200])
 
     ranked_results = reciprocal_rank_fusion (mmr_search_results, bm25_results)
+    
     print("\n--- Reciprocal Rank Fusion Results ---")
-
     for i, ranked_result in enumerate(ranked_results):
         print(f"--- Result {i+1} ---")
         print(f"{ranked_result}\n")
