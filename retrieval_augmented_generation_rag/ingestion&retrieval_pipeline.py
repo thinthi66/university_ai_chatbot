@@ -51,7 +51,7 @@ def load_files(folder_name:str):
         
     return documents
 
-def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
+def chunk_files(documents, chunk_size = 512, chunk_overlap = 50):
     
     headers_to_split_on = [("#", "Header 1"),
                            ("##", "Header 2"),
