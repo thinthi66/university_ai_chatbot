@@ -73,7 +73,7 @@ def chunk_files(documents, chunk_size = 1000, chunk_overlap = 50):
         chunks_collection.extend(text_chunks)
 
     if chunks_collection:
-        for i, chunk in enumerate(text_chunks):
+        for i, chunk in enumerate(chunks_collection):
             print(f"\n--- Chunk {i+1} ---")
             print(f"Source: {chunk.metadata['source']}")
             print(f"Length: {len(chunk.page_content)} characters")
